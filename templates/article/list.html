@@ -90,7 +90,7 @@
                 <!-- 标签 -->
                 <span>
                     {% for tag in article.tags.all %}
-                        <a href="{% url 'article:article_list' %}?tag={{ tag }}&search={{ search }}&column={{ column }}"
+                        <a href="{% url 'article:article_list' %}?tag={{ tag }}"
                         class="badge badge-secondary" 
                         >
                             {{ tag }}
@@ -101,7 +101,7 @@
                 <!-- 标题 -->
                 <h4>
                     <b>
-                        <a href="{% url 'article:article_detail' article.id %}search={{ search }}&column={{ column }}&tag={{ tag }}"
+                        <a href="{% url 'article:article_detail' article.id %}"
                         style="color: black;" 
                         >
                             {{ article.title }}
