@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 # 引入 Q 对象
 from django.db.models import Q
+from comment.models import Comment
 
 # 重写文章列表
 def article_list(request):
@@ -58,6 +59,9 @@ def article_list(request):
 def article_detail(request, id):
     article = ArticlePost.objects.get(id=id)
 
+    # 取出文章评论
+    comments = Comment.objects.filter(article=id)
+
     # 浏览量 +1
     article.total_views += 1
     article.save(update_fields=['total_views'])
@@ -72,8 +76,8 @@ def article_detail(request, id):
     )
     article.body = md.convert(article.body)
 
-    # 新增了md.toc对象
-    context = { 'article': article, 'toc': md.toc }
+    # 添加comments上下文
+    context = { 'article': article, 'toc': md.toc, 'comments': comments }
 
     return render(request, 'article/detail.html', context)
 

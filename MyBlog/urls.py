@@ -30,6 +30,8 @@ urlpatterns = [
     # 用户管理
     path('userprofile/', include('userprofile.urls', namespace='userprofile')),
     path('password-reset/', include('password_reset.urls')),
+    # 评论
+    path('comment/', include('comment.urls', namespace='comment')),
 ]
 
 #添加这行
