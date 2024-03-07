@@ -19,6 +19,8 @@ from django.core.paginator import Paginator
 # 引入 Q 对象
 from django.db.models import Q
 from comment.models import Comment
+# 引入栏目Model
+from .models import ArticleColumn
 
 # 重写文章列表
 def article_list(request):
@@ -94,6 +96,10 @@ def article_create(request):
             # 指定目前登录的用户为作者
             new_article.author = User.objects.get(id=request.user.id)
             # 将新文章保存到数据库中
+            # 新增的代码
+            if request.POST['column'] != 'none':
+                new_article.column = ArticleColumn.objects.get(id=request.POST['column'])
+    
             new_article.save()
             # 完成后返回到文章列表
             return redirect("article:article_list")
@@ -105,7 +111,8 @@ def article_create(request):
         # 创建表单类实例
         article_post_form = ArticlePostForm()
         # 赋值上下文
-        context = { 'article_post_form': article_post_form }
+        columns = ArticleColumn.objects.all()
+        context = { 'article_post_form': article_post_form, 'columns': columns }
         # 返回模板
         return render(request, 'article/create.html', context)
     
@@ -151,6 +158,11 @@ def article_update(request, id):
             # 保存新写入的 title、body 数据并保存
             article.title = request.POST['title']
             article.body = request.POST['body']
+            # 新增的代码
+            if request.POST['column'] != 'none':
+                article.column = ArticleColumn.objects.get(id=request.POST['column'])
+            else:
+                article.column = None
             article.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
             return redirect("article:article_detail", id=id)
@@ -163,7 +175,13 @@ def article_update(request, id):
         # 创建表单类实例
         article_post_form = ArticlePostForm()
         # 赋值上下文，将 article 文章对象也传递进去，以便提取旧的内容
-        context = { 'article': article, 'article_post_form': article_post_form }
+        # 新增及修改的代码
+        columns = ArticleColumn.objects.all()
+        context = { 
+            'article': article, 
+            'article_post_form': article_post_form,
+            'columns': columns,
+        }
         # 将响应返回到模板中
         return render(request, 'article/update.html', context)
     

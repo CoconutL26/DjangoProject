@@ -13,6 +13,7 @@
             <form method="post" action=".">
                 <!-- Django中需要POST数据的地方都必须有csrf_token -->
                 {% csrf_token %}
+
                 <!-- 文章标题 -->
                 <div class="form-group">
                     <!-- 标签 -->
@@ -20,14 +21,32 @@
                     <!-- 文本框 -->
                     <input type="text" class="form-control" id="title" name="title">
                 </div>
+
+                <!-- 文章栏目 -->
+                <div class="form-group">
+                    <label for="column">栏目</label>
+                    <select class="form-control" 
+                            id="column" 
+                            name="column"
+                    >
+                            <option value="none">请选择栏目..</option>
+                        {% for column in columns %}
+                            <option value="{{ column.id }}">{{ column }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
                 <!-- 文章正文 -->
                 <div class="form-group">
                     <label for="body">文章正文</label>
                     <!-- 文本区域 -->
                     <textarea type="text" class="form-control" id="body" name="body" rows="12"></textarea>
                 </div>
+
                 <!-- 提交按钮 -->
                 <button type="submit" class="btn btn-primary">完成</button>
+            
+            
             </form>
         </div>
     </div>
