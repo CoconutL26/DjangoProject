@@ -21,6 +21,8 @@ from django.db.models import Q
 from comment.models import Comment
 # 引入栏目Model
 from .models import ArticleColumn
+# 引入评论表单
+from comment.forms import CommentForm
 
 # 重写文章列表
 def article_list(request):
@@ -91,8 +93,13 @@ def article_detail(request, id):
     )
     article.body = md.convert(article.body)
 
+    # 引入评论表单
+    comment_form = CommentForm()
     # 添加comments上下文
-    context = { 'article': article, 'toc': md.toc, 'comments': comments }
+    context = {'article': article, 
+               'toc': md.toc, 
+               'comments': comments ,
+               'comment_form': comment_form,}
 
     return render(request, 'article/detail.html', context)
 
