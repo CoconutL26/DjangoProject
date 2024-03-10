@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'comment',
     'taggit',
     'ckeditor',
+    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -185,3 +186,5 @@ CKEDITOR_CONFIGS = {
         'extraPlugins': ','.join(['codesnippet', 'prism', 'widget', 'lineutils']),
     }
 }
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
