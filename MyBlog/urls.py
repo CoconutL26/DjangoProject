@@ -22,6 +22,7 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 import notifications.urls
+from article.views import article_list
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -37,6 +38,10 @@ urlpatterns = [
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
     # notice
     path('notice/', include('notice.urls', namespace='notice')),
+    path('accounts/', include('allauth.urls')),
+    # home
+    path('', article_list, name='home'),
+    
 ]
 
 #添加这行

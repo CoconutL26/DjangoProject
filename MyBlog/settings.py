@@ -47,6 +47,17 @@ INSTALLED_APPS = [
     'mptt',
     'notifications',
     'notice',
+
+    # allauth 启动必须项
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # 可添加需要的第三方登录
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.weibo',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +68,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    # 其他中间件...
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = "MyBlog.urls"
@@ -73,6 +87,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # allauth 启动必须项
+                # 'django.template.context_processors.request',
             ],
         },
     },
@@ -190,3 +206,16 @@ CKEDITOR_CONFIGS = {
 }
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+AUTHENTICATION_BACKENDS = (
+    # Django 后台可独立于 allauth 登录
+    'django.contrib.auth.backends.ModelBackend',
+
+    # 配置 allauth 独有的认证方法，如 email 登录
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+# 设置站点
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
