@@ -1,7 +1,8 @@
 <!-- extends表明此页面继承自 base.html 文件 -->
 {% extends "base.html" %}
 {% load static %}
-
+{% load my_filters_and_tags %}
+{% show_comments_pub_time article %}
 <!-- 写入 base.html 中定义的 title -->
 {% block title %}
     文章详情
@@ -113,6 +114,7 @@
                             <div>
                                 <span style="color: gray">
                                     {{ comment.created|date:"Y-m-d H:i" }}
+                                    
                                 </span>
 
                                 <!-- 加载 modal 的按钮 -->
