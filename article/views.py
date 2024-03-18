@@ -23,6 +23,7 @@ from comment.models import Comment
 from .models import ArticleColumn
 # 引入评论表单
 from comment.forms import CommentForm
+from django.shortcuts import get_object_or_404
 
 # 重写文章列表
 def article_list(request):
@@ -74,8 +75,11 @@ def article_list(request):
 
 # 文章详情
 def article_detail(request, id):
-    article = ArticlePost.objects.get(id=id)
+    # 取出相应的文章
+    # article = ArticlePost.objects.get(id=id)
+    article = get_object_or_404(ArticlePost, id=id)
 
+    
     # 取出文章评论
     comments = Comment.objects.filter(article=id)
 
